@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
     Platform, StyleSheet, Switch, Text, View, ListView,
-    TextInput, TouchableOpacity, ActivityIndicator, Alert, ScrollView, Image
+    TextInput, TouchableOpacity, ActivityIndicator, Alert, ScrollView, Image, Modal, FlatList
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -16,12 +16,66 @@ class ContactManagement extends Component {
 
     constructor(props) {
         super(props);
-
+        selected =[]
         this.state = {
             trueSwitchIsOn: true,
             falseSwitchIsOn: false,
+            showModal: false,
+            selected: selected,
         };
+        selected =[]
+
+        data = [
+            {
+                image: require('../../images/contact_management/Layer1.png'),
+                name: 'John Doe'
+            },
+            {
+                image: require('../../images/contact_management/Layer2.png'),
+                name: 'Smith ellen'
+            },
+            {
+                image: require('../../images/contact_management/Layer3.png'),
+                name: 'Mazzui'
+            }
+        ];
     }
+
+    showModal(){
+        this.setState({
+            showModal: true,
+        })
+    }
+
+    showSearchResult(){
+        this.setState({
+            showModal: false,
+        })
+    }
+
+    itemPress(name){
+        
+            selected.push(name)
+       
+        
+        this.setState({
+            selected: selected
+        })
+    }
+
+    renderUser = ({item,selected}) => {
+        return (
+            <TouchableOpacity onPress={this.itemPress.bind(this,item.name)}>
+              <View style={{flexDirection:'row', paddingVertical: 5,borderColor: Config.lineColor,borderBottomWidth:1,alignItems:'center',justifyContent:'space-between'}}>
+                <View style={{flexDirection:'row',flex:1,alignItems:'center'}}>
+                    <Image source={item.image} style={{ height: 40, width: 40 }} />
+                    <Text> {item.name}</Text>
+                </View>
+                    
+              </View>
+            </TouchableOpacity>
+        )
+      }
 
     render() {
         return (
@@ -34,7 +88,9 @@ class ContactManagement extends Component {
                     <View style={{ flexDirection: 'row', marginTop: 16 }}>
                         <View style={{ flex: 1, flexDirection: 'row' }}>
                             <View style={{ marginRight: 10 }}>
-                                <Image source={require('../../images/contact_management/Ellipse2.png')} style={{ height: 40, width: 40 }} />
+                                <TouchableOpacity onPress = { this.showModal.bind(this)}>
+                                    <Image source={require('../../images/contact_management/Ellipse2.png')} style={{ height: 40, width: 40 }} />
+                                </TouchableOpacity>    
                             </View>
                             <Image source={require('../../images/contact_management/Ellipse.png')} style={{ height: 40, width: 40 }} />
                             <Image source={require('../../images/contact_management/Layer1.png')} style={{ height: 40, width: 40 }} />
@@ -54,7 +110,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/Tencent_qq.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} style={styles.wordstyle}>QQ</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
                                 value={true} />
@@ -63,7 +119,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/skype-icon.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >Skype</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -73,7 +129,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/wechat-logo.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >WeChat</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -83,7 +139,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/MetroUI_phone.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >Phone</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -98,7 +154,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/Tencent_qq.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} style={styles.wordstyle}>QQ</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
                                 value={this.state.falseSwitchIsOn} />
@@ -107,7 +163,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/skype-icon.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >Skype</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -117,7 +173,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/wechat-logo.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >WeChat</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -127,7 +183,7 @@ class ContactManagement extends Component {
                     <View style={styles.rowStyle}>
                         <Image source={require('../../images/contact_management/MetroUI_phone.png')} style={{ height: 20 }} resizeMode='contain' />
                         <Text style={styles.wordstyle} >Phone</Text>
-                        <View style={{ flex: 1 }} >
+                        <View>
                             <Switch
                                 onValueChange={(value) => this.setState({ falseSwitchIsOn: value })} onTintColor="#228b22" thumbTintColor="#fff"
 
@@ -151,6 +207,36 @@ class ContactManagement extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={this.state.showModal}>
+                    <View style={styles.dialogStyle}>
+                        <View style={styles.dialogBoxStyle}>   
+                            <Text style={styles.modalText}>Add User</Text>
+                            <View style={styles.searchView}>
+                                <TextInput underlineColorAndroid="transparent" style={styles.madalTextInput}
+                                    placeholder='Search User..'/>
+                                <TouchableOpacity style={styles.searchButtonStyle} onPress={() => { this.showSearchResult(); }}>
+                                    <Ionicons name='ios-search' color={Config.primaryColor} size={20} />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.selectedImageView}>
+                                <View>
+                                    <Image source={require('../../images/contact_management/Layer3.png')} style={{ height: 40, width: 40 }} />
+                                    <Text> John Doe</Text>
+                                </View>    
+                            </View>  
+                            <View style={styles.modalListView}>
+                                <FlatList
+                                    data={data}
+                                    renderItem={this.renderUser}/>
+                            </View>  
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         );
     }
@@ -160,6 +246,35 @@ const styles = {
     rootStyle: {
         backgroundColor: '#F3F3F3',
         height:1334
+    },
+    modalText:{
+        fontSize: 18,
+    },
+    selectedImageView:{
+        backgroundColor: Config.lineColor,
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    searchView:{
+        marginTop: 10,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Config.lineColor,
+        backgroundColor: '#fff',
+        height: 40,
+        width: '90%',
+        flexDirection: 'row'
+    },
+    madalTextInput:{
+        flex: 1,
+        height: 40,
+        marginLeft: 10,
+        fontSize: 14
+    },
+    searchButtonStyle: {
+        padding: 10,
+        backgroundColor: 'transparent'
     },
     rowStyle: {
         height: 35,
@@ -171,6 +286,7 @@ const styles = {
         backgroundColor: '#fff'
     },
     wordstyle: {
+        flex: 1,
         marginLeft: 12,
         color: '#000000'
     },
@@ -195,6 +311,21 @@ const styles = {
         alignItems: 'center',
         flex: 1
 
+    },
+    dialogStyle: {
+        flex: 1,
+        backgroundColor: 'rgba(44, 62, 80, 0.6)',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    dialogBoxStyle: {
+        flex: 1,
+        marginTop:100,
+        marginBottom:40,
+        marginLeft:10,
+        marginRight:10,
+        backgroundColor: '#fff',
+        padding: 10
     },
 
 

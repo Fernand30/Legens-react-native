@@ -44,6 +44,19 @@ class Notification extends Component {
     render() {
         return (
             <View style={styles.rootStyle}>
+                <View style={styles.navigationStyle}>
+                    <View style={styles.navigationTextStyle}>
+                        <Image source={require('../../../images/notification/icon_list_left.png')}
+                                        style={{marginRight:10,marginLeft:10,height: 20, width: 20, }} resizeMode='contain' />
+                        <Text style={{ fontSize: 18 }}>
+                            Legens Lair
+                        </Text>
+                    </View>
+                    <View style={{flex: 1, justifyContent:'center', alignItems: 'flex-end'}}>
+                        <Image source={require('../../../images/notification/icon_search.png')}
+                                style={{marginRight:20,height: 15, width: 15, }} resizeMode='contain' />
+                    </View>
+                </View>
                 <View style={{ flex: 1 }}>
                     {this.state.screen == 1 && <Tab1 />}
                     {this.state.screen == 2 && <Tab2 />}
@@ -83,7 +96,20 @@ const styles = {
         alignItems: 'center',
         flexDirection: 'row',
         flex: 1
-    }
+    },
+    navigationStyle: {
+        height: 50,
+        flexDirection: 'row',
+        marginTop: 20,
+        borderBottomColor: Config.lineColor,
+        borderBottomWidth: 1,
+        justifyContent: 'space-between'
+    },
+    navigationTextStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
 };
 
 function mapStateToProps(state) {

@@ -7,7 +7,7 @@ import Config from '../../Config';
 
 class Tab1 extends Component {
     static navigationOptions = {
-        title: '个人资料',
+        title: 'Platform Review'
     };
 
     constructor(props) {

@@ -131,7 +131,7 @@ class ShareOffice extends Component {
     }
 
     showSearchResult() {
-        this.root.navigate('SearchResult');
+        this.root.navigate('SearchResult', {title: 'Experts With Contain Skill'});
     }
 
     onQrDetected() {

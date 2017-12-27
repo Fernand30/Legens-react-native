@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Config from '../Config';
 
 import ShareOffice from './subs/ShareOffice';
-import ChatList from './subs/ChatList';
+import ChatList from './ChatSingle-1';
 import SelectSeat from './subs/SelectSeat';
 import Notification from './subs/Notification';
 import Profile from './subs/Profile';
@@ -39,8 +39,8 @@ class Application extends Component {
                     active: false,
                     middle: false,
                     icon: require('../../images/select_seat/bottom_icon_chat.png'),
-                    label: '室内聊天',
-                    topLabel: '室内聊天',
+                    label: '设计师',
+                    topLabel: '设计师',
                 },
                 {
                     active: false,
@@ -68,10 +68,6 @@ class Application extends Component {
         };
     }
 
-    gotoLogin() {
-        this.props.navigation.navigate('Login');
-    }
-
     activateMenu(index) {
         let buttons = this.state.buttons;
         buttons = buttons.map((item) => {
@@ -86,7 +82,7 @@ class Application extends Component {
         return (
             <View style={styles.containerStyle}>
                 {
-                    this.state.activeIndex != 0 &&
+                    this.state.activeIndex != 0 && this.state.activeIndex != 1 && this.state.activeIndex != 3 &&
                     <View style={styles.navigationStyle}>
                         <View style={styles.navigationTextStyle}>
                             <Text style={{ fontSize: 18 }}>

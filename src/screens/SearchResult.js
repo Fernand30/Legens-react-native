@@ -8,8 +8,11 @@ import Config from '../Config';
 
 
 class SearchResult extends Component {
-    static navigationOptions = {
-        title: 'Search Result'
+    static navigationOptions = ({ navigation }) => {
+        const { params = {} } = navigation.state;
+        return {
+            title: params.title,
+        }
     };
 
     constructor(props) {

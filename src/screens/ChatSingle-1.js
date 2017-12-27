@@ -5,23 +5,7 @@ import { Text, View, ListView, TouchableOpacity, Alert, ScrollView, Image, TextI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Config from '../Config';
 
-const ini = this;
-
 class ChatSingle extends Component {
-    /*static navigationOptions = {
-        title: '设计师'
-    };*/
-
-    static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state;
-        return {
-            title: '设计师',
-            headerRight: (<TouchableOpacity onPress={() => { ini.handleManageContact() }}>
-                <Image source={require('../../images/private_chat/icon_manage.png')}
-                    style={{ width: 30, height: 30, resizeMode: 'contain', marginRight: 10 }} />
-            </TouchableOpacity>)
-        };
-    };
 
     constructor(props) {
         super(props);
@@ -63,18 +47,20 @@ class ChatSingle extends Component {
             data: data,
             dataSource: this.convertArrayToDataSource(data),
             chatText: '',
-            showModal: false
+            showModal: true
         };
 
-        ini = this;
+        this.root = this.props.component.root;
     }
 
     handleManageContact() {
-        this.props.navigation.navigate('ContactManagement');
+        //this.props.navigation.navigate('ContactManagement');
+        this.root.navigate('ContactManagement');
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({ handleManageContact: this.handleManageContact });
+        //this.root.navigation.setParams({ handleManageContact: this.handleManageContact });
+        //this.root.navigate('ContactManagement');
     }
 
     convertArrayToDataSource(arr) {
@@ -98,10 +84,6 @@ class ChatSingle extends Component {
         }
     }
 
-    checkPortfolio(){
-        this.props.navigation.navigate('Portfolio');
-    }
-
     renderRow(item) {
         if (item.type == 'left') {
             return (
@@ -118,24 +100,30 @@ class ChatSingle extends Component {
             );
         } else {
             return (
-                <TouchableOpacity onPress = {this.checkPortfolio.bind(this)}>
-                    <View style={styles.rowStyle}>
-                        <View style={[styles.infoStyle, { alignItems: 'flex-end' }]}>
-                            <View style={styles.bubbleRightStyle}>
-                                <Text style={{ color: '#fff' }}>{item.message}</Text>
-                            </View>
+                <View style={styles.rowStyle}>
+                    <View style={[styles.infoStyle, { alignItems: 'flex-end' }]}>
+                        <View style={styles.bubbleRightStyle}>
+                            <Text style={{ color: '#fff' }}>{item.message}</Text>
                         </View>
-                        <Image source={require('../../images/private_chat/corner_2.png')}
-                            style={{ height: 10, width: 10, tintColor: Config.primaryColor, marginLeft: -2 }} />
-                        <Image source={item.image} style={styles.avatarStyle} />
                     </View>
-                </TouchableOpacity>
+                    <Image source={require('../../images/private_chat/corner_2.png')}
+                        style={{ height: 10, width: 10, tintColor: Config.primaryColor, marginLeft: -2 }} />
+                    <Image source={item.image} style={styles.avatarStyle} />
+                </View>
             );
         }
     }
 
     onQqPress() {
         this.setState({ showModal: true });
+    }
+
+    temp1 = (params) => {
+        this.root.navigate('QrcodeResult');
+    }
+
+    temp2 = (params) => {
+        this.root.navigate('SearchResult',{title: 'Silicon Valley'});
     }
 
     copyToClipboard(){
@@ -146,34 +134,23 @@ class ChatSingle extends Component {
     render() {
         return (
             <View style={styles.rootStyle}>
-                <View style={styles.headerStyle}>
-                    <TouchableOpacity style={styles.socialButtonStyle} onPress={() => { this.onQqPress(); }}>
-                        <Image source={require('../../images/private_chat/icon_qq.png')}
-                            style={styles.socialIconStyle} />
-                        <Text style={{ fontSize: 12, color: '#000' }}>QQ</Text>
-                        <Text style={{ fontSize: 10, color: '#555' }}>123456789</Text>
-                    </TouchableOpacity>
-                    <View style={{ width: 1, backgroundColor: '#f7f7f7' }} />
-                    <TouchableOpacity style={styles.socialButtonStyle} onPress={() => { this.onQqPress(); }}>
-                        <Image source={require('../../images/private_chat/icon_skype.png')}
-                            style={styles.socialIconStyle} />
-                        <Text style={{ fontSize: 12, color: '#000' }}>Skype</Text>
-                        <Text style={{ fontSize: 10, color: '#555' }}>adam.john</Text>
-                    </TouchableOpacity>
-                    <View style={{ width: 1, backgroundColor: '#f7f7f7' }} />
-                    <TouchableOpacity style={styles.socialButtonStyle} onPress={() => { this.onQqPress(); }}>
-                        <Image source={require('../../images/private_chat/icon_wechat.png')}
-                            style={styles.socialIconStyle} />
-                        <Text style={{ fontSize: 12, color: '#000' }}>WeChat</Text>
-                        <Text style={{ fontSize: 10, color: '#555' }}>adamjohn</Text>
-                    </TouchableOpacity>
-                    <View style={{ width: 1, backgroundColor: '#f7f7f7' }} />
-                    <TouchableOpacity style={styles.socialButtonStyle} onPress={() => { this.onQqPress(); }}>
-                        <Image source={require('../../images/private_chat/icon_phone.png')}
-                            style={styles.socialIconStyle} />
-                        <Text style={{ fontSize: 12, color: '#000' }}>Phone</Text>
-                        <Text style={{ fontSize: 10, color: '#555' }}>+12 3456 7890</Text>
-                    </TouchableOpacity>
+                 <View style={styles.navigationStyle}>
+                    <View style={{flex:1}}/>
+                    <View style={styles.navigationTextStyle}>
+                        <Text style={{ fontSize: 18 , fontWeight: '600'}}>
+                            Silicon Valley
+                        </Text>
+                        <TouchableOpacity onPress = { this.temp1.bind(this,{name: 1}) }>
+                            <Image source={require('../../images/other/icon_top_left.png')}
+                                        style={{ marginLeft:5,height: 20, width: 20, }} resizeMode='contain' />
+                        </TouchableOpacity>                
+                    </View>
+                    <View style={{flex: 1, alignItems:'flex-end'}}>
+                        <TouchableOpacity onPress = { this.temp2.bind(this, { name : 2 })} >                  
+                            <Image source={require('../../images/other/icon_top_right.png')}
+                                        style={{marginRight:20,height: 20, width: 20, }} resizeMode='contain' />
+                        </TouchableOpacity>                
+                    </View>                
                 </View>
                 <ListView
                     dataSource={this.state.dataSource}
@@ -201,34 +178,17 @@ class ChatSingle extends Component {
                     transparent={true}
                     visible={this.state.showModal}>
                     <View style={styles.dialogStyle}>
-                        <View style={styles.dialogBoxStyle}>
-                            <View style={{ height: 20 }} />
-                            <View style={{ flexDirection: 'row', alignItems: 'center', height: 50, paddingHorizontal: 10 }}>
-                                <Image source={require('../../images/other/icon_phone_laptop.png')}
-                                    style={{ height: 40, width: 40, tintColor: Config.primaryColor, marginRight: 10 }} resizeMode='contain' />
-                                <Text style={{ flex: 1, fontSize: 10 }}>Should not discuss platform issue, if got problem please discuss with customer service</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', height: 50, paddingHorizontal: 10 }}>
-                                <Image source={require('../../images/other/icon_announce.png')}
-                                    style={{ height: 40, width: 40, tintColor: Config.primaryColor, marginRight: 10 }} resizeMode='contain' />
-                                <Text style={{ flex: 1, fontSize: 10 }}>Advertise only for job , other is not allow</Text>
-                            </View>
-                            <View style={{ height: 20 }} />
-                            <View style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: '#f36c4f', paddingVertical: 10, paddingHorizontal: 10, height: 50 }}>
-                                <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#fff', textAlign: 'center' }}>
-                                    Who ever offence the rule will be deduct deposits and not allow to use chat room for 5 days
-                                </Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', height: 40 }}>
-                                <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomLeftRadius: 10 }}
-                                    onPress={() => { this.setState({ showModal: false }) }}>
-                                    <Text style={{ color: '#f36c4f', fontSize: 11, fontWeight: 'bold' }}>LEAVE</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderBottomRightRadius: 10, backgroundColor: Config.primaryColor }}
-                                    onPress={() => { this.copyToClipboard(); }}>
-                                    <Text style={{ color: '#fff', fontSize: 11, fontWeight: 'bold' }}>AGREE</Text>
-                                </TouchableOpacity>
-                            </View>
+                        
+                        <View style={styles.dialogBoxStyle}>   
+                            <Image source={require('../../images/other/icon_chat.png')}
+                                    style={{ height: 50, width: 50, tintColor: Config.primaryColor, marginRight: 10 }} resizeMode='contain' />
+                            
+                            <Text style={{textAlign:'center', fontSize: 14, marginTop: 20,marginBottom: 20 , fontWeight: '600' }}>You havent use share office once. Use{'\n'}you will chat with this share office{'\n'}Community</Text>                          
+                           
+                            <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', borderRadius: 5, paddingVertical:10, paddingHorizontal:40,borderWidth:1,borderColor:'#57b029' }}
+                                onPress={() => { this.setState({ showModal: false }) }}>
+                                <Text style={{ color: '#57b029', fontSize: 12, fontWeight: '600' }}>OK</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
@@ -251,6 +211,21 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    navigationStyle: {
+        height: 50,
+        flexDirection: 'row',
+        justifyContent:'space-between',
+        marginTop: 20,
+        alignItems: 'center',
+        borderBottomColor: Config.lineColor,
+        borderBottomWidth: 1
+    },
+    navigationTextStyle: {
+        flex: 1,
+        flexDirection:'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     socialIconStyle: {
         height: 25,
